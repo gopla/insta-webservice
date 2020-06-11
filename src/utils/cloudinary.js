@@ -12,7 +12,7 @@ module.exports = {
   uploadFromBuffer: (file) => {
     return new Promise((resolve, reject) => {
       let cld_upload_stream = cloudinary.uploader.upload_stream(
-        { resource_type: 'auto', folder: 'insta' },
+        { resource_type: 'auto', folder: 'insta/post' },
         (error, result) => {
           if (result) {
             resolve(result)
@@ -25,11 +25,11 @@ module.exports = {
     })
   },
 
-  deleteImage: (publicId) => {
+  deleteImageCloudinary: (publicId) => {
     return new Promise((resolve, reject) => {
       cloudinary.uploader.destroy(
         publicId,
-        { resource_types: 'auto' },
+        { resource_types: 'image' },
         (err, result) => {
           if (result) {
             resolve(result)
@@ -38,6 +38,38 @@ module.exports = {
           }
         }
       )
+    })
+  },
+
+  deleteVideoCloudinary: (publicId) => {
+    return new Promise((resolve, reject) => {
+      cloudinary.api.delete_resources(
+        publicId,
+        { resource_type: 'video' },
+        (err, result) => {
+          if (result) {
+            resolve(result)
+          } else {
+            reject(error)
+          }
+        }
+      )
+    })
+  },
+
+  uploadProfPic: (file) => {
+    return new Promise((resolve, reject) => {
+      let cld_upload_stream = cloudinary.uploader.upload_stream(
+        { resource_type: 'image', folder: 'insta/profpic' },
+        (error, result) => {
+          if (result) {
+            resolve(result)
+          } else {
+            reject(error)
+          }
+        }
+      )
+      streamifier.createReadStream(file).pipe(cld_upload_stream)
     })
   },
 }

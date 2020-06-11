@@ -1,5 +1,8 @@
 const { setError } = require('../../middlewares/errorHandler')
-const { uploadFromBuffer, deleteVideo } = require('../../utils/cloudinary')
+const {
+  uploadFromBuffer,
+  deleteVideoCloudinary,
+} = require('../../utils/cloudinary')
 const Video = require('./video.model')
 
 module.exports = {
@@ -66,10 +69,9 @@ module.exports = {
     return new Promise(async (resolve, reject) => {
       try {
         const findVideo = await Video.findById(videoId)
-        console.log(findVideo)
 
-        const delRes = await deleteVideo(findVideo.videoPublicId)
-        if (delRes.result == 'ok') {
+        const delRes = await deleteVideoCloudinary(findVideo.videoPublicId)
+        if (delRes.deleted) {
           const videoDoc = await Video.findOneAndDelete({ _id: videoId })
           resolve(videoDoc)
         }
@@ -87,8 +89,6 @@ module.exports = {
           .exec()
         resolve(videoDoc)
       } catch (error) {
-        console.log(error)
-
         reject(setError(302, error))
       }
     })

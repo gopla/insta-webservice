@@ -1,5 +1,8 @@
 const { setError } = require('../../middlewares/errorHandler')
-const { uploadFromBuffer, deleteImage } = require('../../utils/cloudinary')
+const {
+  uploadFromBuffer,
+  deleteImageCloudinary,
+} = require('../../utils/cloudinary')
 const Image = require('./image.model')
 
 module.exports = {
@@ -68,7 +71,7 @@ module.exports = {
         const findImage = await Image.findById(imageId)
         console.log(findImage)
 
-        const delRes = await deleteImage(findImage.imagePublicId)
+        const delRes = await deleteImageCloudinary(findImage.imagePublicId)
         if (delRes.result == 'ok') {
           const imageDoc = await Image.findOneAndDelete({ _id: imageId })
           resolve(imageDoc)
