@@ -53,4 +53,31 @@ module.exports = {
       res.status(error.statusCode || 500).json(error)
     }
   },
+
+  liked: async (req, res) => {
+    try {
+      const imageRes = await imageService.incrementLike(req.params.id)
+      res.json(imageRes)
+    } catch (error) {
+      res.status(error.statusCode || 500).json(error)
+    }
+  },
+
+  unliked: async (req, res) => {
+    try {
+      const imageRes = await imageService.decrementLike(req.params.id)
+      res.json(imageRes)
+    } catch (error) {
+      res.status(error.statusCode || 500).json(error)
+    }
+  },
+
+  viewed: async (req, res) => {
+    try {
+      const imageRes = await imageService.incrementView(req.params.id)
+      res.json(imageRes)
+    } catch (error) {
+      res.status(error.statusCode || 500).json(error)
+    }
+  },
 }

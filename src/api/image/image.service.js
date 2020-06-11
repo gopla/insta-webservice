@@ -78,4 +78,48 @@ module.exports = {
       }
     })
   },
+  incrementLike: (imageId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await Image.findOneAndUpdate({ _id: imageId }, { $inc: { like: 1 } })
+        const imageDoc = await Image.find({ _id: imageId })
+          .populate('user')
+          .exec()
+        resolve(imageDoc)
+      } catch (error) {
+        console.log(error)
+
+        reject(setError(302, error))
+      }
+    })
+  },
+  decrementLike: (imageId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await Image.findOneAndUpdate({ _id: imageId }, { $inc: { like: -1 } })
+        const imageDoc = await Image.find({ _id: imageId })
+          .populate('user')
+          .exec()
+        resolve(imageDoc)
+      } catch (error) {
+        reject(setError(302, error))
+      }
+    })
+  },
+  incrementView: (imageId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await Image.findOneAndUpdate({ _id: imageId }, { $inc: { view: 1 } })
+        const imageDoc = await Image.find({ _id: imageId })
+          .populate('user')
+          .exec()
+        resolve(imageDoc)
+        resolve(imageDoc)
+      } catch (error) {
+        console.log(error)
+
+        reject(setError(302, error))
+      }
+    })
+  },
 }

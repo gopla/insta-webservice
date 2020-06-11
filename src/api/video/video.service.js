@@ -81,10 +81,10 @@ module.exports = {
   incrementLike: (videoId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const videoDoc = await Video.findOneAndUpdate(
-          { _id: videoId },
-          { $inc: { like: 1 } }
-        )
+        await Video.findOneAndUpdate({ _id: videoId }, { $inc: { like: 1 } })
+        const videoDoc = await Video.find({ _id: videoId })
+          .populate('user')
+          .exec()
         resolve(videoDoc)
       } catch (error) {
         console.log(error)
@@ -96,10 +96,10 @@ module.exports = {
   decrementLike: (videoId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const videoDoc = await Video.findOneAndUpdate(
-          { _id: videoId },
-          { $inc: { like: -1 } }
-        )
+        await Video.findOneAndUpdate({ _id: videoId }, { $inc: { like: -1 } })
+        const videoDoc = await Video.find({ _id: videoId })
+          .populate('user')
+          .exec()
         resolve(videoDoc)
       } catch (error) {
         reject(setError(302, error))
@@ -109,10 +109,10 @@ module.exports = {
   incrementView: (videoId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const videoDoc = await Video.findOneAndUpdate(
-          { _id: videoId },
-          { $inc: { view: 1 } }
-        )
+        await Video.findOneAndUpdate({ _id: videoId }, { $inc: { view: 1 } })
+        const videoDoc = await Video.find({ _id: videoId })
+          .populate('user')
+          .exec()
         resolve(videoDoc)
       } catch (error) {
         console.log(error)
