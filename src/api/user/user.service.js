@@ -46,6 +46,8 @@ module.exports = {
           name: user.name,
           username: uname,
           password: hashedPass,
+          image:
+            'https://res.cloudinary.com/gopla/image/upload/v1591950484/insta/profpic/noprofpic_r9kdwm.png',
         })
         resolve(userDoc)
       } catch (error) {
@@ -68,11 +70,7 @@ module.exports = {
           return
         }
 
-        const userDoc = await User.findOneAndUpdate(
-          { _id: id },
-          { $set: user },
-          { new: true }
-        )
+        const userDoc = await User.findOneAndUpdate({ _id: id }, { $set: user })
         resolve(userDoc)
       } catch (error) {
         console.log(error)

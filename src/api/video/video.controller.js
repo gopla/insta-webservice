@@ -1,4 +1,5 @@
 const videoService = require('./video.service')
+const userService = require('../user/user.service')
 
 module.exports = {
   index: async (req, res) => {
@@ -27,7 +28,10 @@ module.exports = {
         req.body.caption,
         videoBuffer
       )
-      res.json(videoRes)
+      if (videoRes) {
+        await userService.incrementPost(req.user.id)
+        res.json(videoRes)
+      }
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
     }
@@ -48,7 +52,10 @@ module.exports = {
   delete: async (req, res) => {
     try {
       const videoRes = await videoService.deleteVideo(req.params.id)
-      res.json(videoRes)
+      if (videoRes) {
+        await userService.decrementPost(req.user.id)
+        res.json(videoRes)
+      }
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
     }

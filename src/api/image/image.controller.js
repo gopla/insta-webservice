@@ -1,4 +1,5 @@
 const imageService = require('./image.service')
+const userService = require('../user/user.service')
 
 module.exports = {
   index: async (req, res) => {
@@ -27,7 +28,10 @@ module.exports = {
         req.body.caption,
         imageBuffer
       )
-      res.json(imageRes)
+      if (imageRes) {
+        await userService.incrementPost(req.user.id)
+        res.json(imageRes)
+      }
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
     }
@@ -48,7 +52,10 @@ module.exports = {
   delete: async (req, res) => {
     try {
       const imageRes = await imageService.deleteImage(req.params.id)
-      res.json(imageRes)
+      if (imageRes) {
+        await userService.decrementPost(req.user.id)
+        res.json(imageRes)
+      }
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
     }
