@@ -16,6 +16,7 @@ module.exports = {
       }
     })
   },
+
   getImageById: (imageId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -28,6 +29,7 @@ module.exports = {
       }
     })
   },
+
   postImage: (userId, caption, imageBuffer) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -49,6 +51,7 @@ module.exports = {
       }
     })
   },
+
   updateCaption: (caption, imageId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -65,6 +68,7 @@ module.exports = {
       }
     })
   },
+
   deleteImage: (imageId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -81,6 +85,7 @@ module.exports = {
       }
     })
   },
+
   incrementLike: (imageId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -96,6 +101,7 @@ module.exports = {
       }
     })
   },
+
   decrementLike: (imageId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -109,6 +115,7 @@ module.exports = {
       }
     })
   },
+
   incrementView: (imageId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -116,7 +123,6 @@ module.exports = {
         const imageDoc = await Image.find({ _id: imageId })
           .populate('user')
           .exec()
-        resolve(imageDoc)
         resolve(imageDoc)
       } catch (error) {
         console.log(error)

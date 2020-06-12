@@ -16,6 +16,7 @@ module.exports = {
       }
     })
   },
+
   getVideoById: (videoId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -28,6 +29,7 @@ module.exports = {
       }
     })
   },
+
   postVideo: (userId, caption, videoBuffer) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -49,6 +51,7 @@ module.exports = {
       }
     })
   },
+
   updateCaption: (caption, videoId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -65,6 +68,7 @@ module.exports = {
       }
     })
   },
+
   deleteVideo: (videoId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -80,6 +84,7 @@ module.exports = {
       }
     })
   },
+
   incrementLike: (videoId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -93,6 +98,7 @@ module.exports = {
       }
     })
   },
+
   decrementLike: (videoId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -106,6 +112,7 @@ module.exports = {
       }
     })
   },
+
   incrementView: (videoId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -115,8 +122,6 @@ module.exports = {
           .exec()
         resolve(videoDoc)
       } catch (error) {
-        console.log(error)
-
         reject(setError(302, error))
       }
     })

@@ -54,7 +54,7 @@ module.exports = {
     })
   },
 
-  updateUser: async (id, user) => {
+  updateUser: (id, user) => {
     return new Promise(async (resolve, reject) => {
       try {
         const uname = user.username.toLowerCase()
@@ -82,7 +82,7 @@ module.exports = {
     })
   },
 
-  deleteuser: async (id) => {
+  deleteuser: (id) => {
     return new Promise(async (resolve, reject) => {
       try {
         const userDoc = await User.findOneAndDelete({ _id: id })
@@ -123,7 +123,7 @@ module.exports = {
     })
   },
 
-  changePass: async (id, user) => {
+  changePass: (id, user) => {
     return new Promise(async (resolve, reject) => {
       try {
         const _user = await User.findOne({ _id: id })
@@ -143,6 +143,90 @@ module.exports = {
           { _id: id },
           { password: hashedPass },
           { new: true }
+        )
+        resolve(userDoc)
+      } catch (error) {
+        reject(setError(302, error))
+      }
+    })
+  },
+
+  incrementPost: (id) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const userDoc = await User.findOneAndUpdate(
+          { _id: id },
+          { $inc: { posted: 1 } }
+        )
+        resolve(userDoc)
+      } catch (error) {
+        reject(setError(302, error))
+      }
+    })
+  },
+
+  decrementPost: (id) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const userDoc = await User.findOneAndUpdate(
+          { _id: id },
+          { $inc: { posted: -1 } }
+        )
+        resolve(userDoc)
+      } catch (error) {
+        reject(setError(302, error))
+      }
+    })
+  },
+
+  incrementFollower: (id) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const userDoc = await User.findOneAndUpdate(
+          { _id: id },
+          { $inc: { follower: 1 } }
+        )
+        resolve(userDoc)
+      } catch (error) {
+        reject(setError(302, error))
+      }
+    })
+  },
+
+  decrementFollower: (id) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const userDoc = await User.findOneAndUpdate(
+          { _id: id },
+          { $inc: { follower: -1 } }
+        )
+        resolve(userDoc)
+      } catch (error) {
+        reject(setError(302, error))
+      }
+    })
+  },
+
+  incrementFollowing: (id) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const userDoc = await User.findOneAndUpdate(
+          { _id: id },
+          { $inc: { following: 1 } }
+        )
+        resolve(userDoc)
+      } catch (error) {
+        reject(setError(302, error))
+      }
+    })
+  },
+
+  decrementFollowing: (id) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const userDoc = await User.findOneAndUpdate(
+          { _id: id },
+          { $inc: { following: 1 } }
         )
         resolve(userDoc)
       } catch (error) {
