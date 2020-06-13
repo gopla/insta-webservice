@@ -1,8 +1,5 @@
 const { setError } = require('../../middlewares/errorHandler')
-const {
-  uploadFromBuffer,
-  deleteVideoCloudinary,
-} = require('../../utils/cloudinary')
+const { uploadVideo, deleteVideoCloudinary } = require('../../utils/cloudinary')
 const Video = require('./video.model')
 
 module.exports = {
@@ -33,7 +30,7 @@ module.exports = {
   postVideo: (userId, caption, videoBuffer) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let cloudinaryResp = await uploadFromBuffer(videoBuffer)
+        let cloudinaryResp = await uploadVideo(videoBuffer)
 
         const videoDoc = (
           await Video.create({

@@ -9,10 +9,26 @@ cloudinary.config({
 })
 
 module.exports = {
-  uploadFromBuffer: (file) => {
+  uploadImage: (file) => {
     return new Promise((resolve, reject) => {
       let cld_upload_stream = cloudinary.uploader.upload_stream(
-        { resource_type: 'auto', folder: 'insta/post' },
+        { resource_type: 'image', folder: 'insta/post', format: 'jpg' },
+        (error, result) => {
+          if (result) {
+            resolve(result)
+          } else {
+            reject(error)
+          }
+        }
+      )
+      streamifier.createReadStream(file).pipe(cld_upload_stream)
+    })
+  },
+
+  uploadVideo: (file) => {
+    return new Promise((resolve, reject) => {
+      let cld_upload_stream = cloudinary.uploader.upload_stream(
+        { resource_type: 'video', folder: 'insta/post', format: 'mp4' },
         (error, result) => {
           if (result) {
             resolve(result)
@@ -60,7 +76,39 @@ module.exports = {
   uploadProfPic: (file) => {
     return new Promise((resolve, reject) => {
       let cld_upload_stream = cloudinary.uploader.upload_stream(
-        { resource_type: 'image', folder: 'insta/profpic' },
+        { resource_type: 'image', folder: 'insta/profpic', format: 'png' },
+        (error, result) => {
+          if (result) {
+            resolve(result)
+          } else {
+            reject(error)
+          }
+        }
+      )
+      streamifier.createReadStream(file).pipe(cld_upload_stream)
+    })
+  },
+
+  uploadStoryImage: (file) => {
+    return new Promise((resolve, reject) => {
+      let cld_upload_stream = cloudinary.uploader.upload_stream(
+        { resource_type: 'image', folder: 'insta/stories', format: 'jpg' },
+        (error, result) => {
+          if (result) {
+            resolve(result)
+          } else {
+            reject(error)
+          }
+        }
+      )
+      streamifier.createReadStream(file).pipe(cld_upload_stream)
+    })
+  },
+
+  uploadStoryVideo: (file) => {
+    return new Promise((resolve, reject) => {
+      let cld_upload_stream = cloudinary.uploader.upload_stream(
+        { resource_type: 'video', folder: 'insta/stories', format: 'mp4' },
         (error, result) => {
           if (result) {
             resolve(result)

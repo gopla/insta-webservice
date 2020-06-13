@@ -1,8 +1,5 @@
 const { setError } = require('../../middlewares/errorHandler')
-const {
-  uploadFromBuffer,
-  deleteImageCloudinary,
-} = require('../../utils/cloudinary')
+const { uploadImage, deleteImageCloudinary } = require('../../utils/cloudinary')
 const Image = require('./image.model')
 
 module.exports = {
@@ -33,7 +30,7 @@ module.exports = {
   postImage: (userId, caption, imageBuffer) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let cloudinaryResp = await uploadFromBuffer(imageBuffer)
+        let cloudinaryResp = await uploadImage(imageBuffer)
 
         const imageDoc = (
           await Image.create({
