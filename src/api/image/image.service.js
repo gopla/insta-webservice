@@ -122,8 +122,6 @@ module.exports = {
           .exec()
         resolve(imageDoc)
       } catch (error) {
-        console.log(error)
-
         reject(setError(302, error))
       }
     })
