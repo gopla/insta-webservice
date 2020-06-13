@@ -1,4 +1,5 @@
 const userService = require('./user.service')
+const followService = require('../follow/follow.service')
 
 module.exports = {
   index: async (req, res) => {
@@ -70,6 +71,53 @@ module.exports = {
         conPass,
       })
       res.json({ isSuccess: true, message: 'Password updated' })
+    } catch (error) {
+      res.status(error.statusCode || 500).json(error)
+    }
+  },
+
+  follow: async (req, res) => {
+    try {
+      const a = await followService.actionFollow(req.params.userid, req.user.id)
+      const b = await userService.incrementFollowing(req.user.id)
+      const c = await userService.incrementFollower(req.params.userid)
+
+      if (a && b && c) res.json({ isSuccess: true, message: 'User followed' })
+    } catch (error) {
+      res.status(error.statusCode || 500).json(error)
+    }
+  },
+
+  unfollow: async (req, res) => {
+    try {
+      const a = await followService.actionUnfollow(
+        req.params.userid,
+        req.user.id
+      )
+      const b = await userService.decrementFollower(req.params.userid)
+      const c = await userService.decrementFollowing(req.user.id)
+
+      if (a && b && c) res.json({ isSuccess: true, message: 'User unfollowed' })
+    } catch (error) {
+      res.status(error.statusCode || 500).json(error)
+    }
+  },
+
+  follower: async (req, res) => {
+    try {
+      const user = await userService.getUserByUsername(req.params.username)
+      const followRes = await followService.getFollowerPerUser(user._id)
+      res.json(followRes)
+    } catch (error) {
+      res.status(error.statusCode || 500).json(error)
+    }
+  },
+
+  following: async (req, res) => {
+    try {
+      const user = await userService.getUserByUsername(req.params.username)
+      const followRes = await followService.getFollowingPerUser(user._id)
+      res.json(followRes)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
     }

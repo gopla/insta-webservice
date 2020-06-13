@@ -22,7 +22,7 @@ module.exports = {
   getUserByUsername: (username) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const userDoc = await User.find({ username })
+        const userDoc = await User.findOne({ username })
         resolve(userDoc)
       } catch (error) {
         reject(setError(302, error))
@@ -224,7 +224,7 @@ module.exports = {
       try {
         const userDoc = await User.findOneAndUpdate(
           { _id: id },
-          { $inc: { following: 1 } }
+          { $inc: { following: -1 } }
         )
         resolve(userDoc)
       } catch (error) {
