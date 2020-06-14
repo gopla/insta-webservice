@@ -6,6 +6,7 @@ const imageRouter = require('./api/image/image.router')
 const videoRouter = require('./api/video/video.router')
 const commentImageRouter = require('./api/imgcomment/imgcomment.router')
 const commentVideoRouter = require('./api/vidcomment/vidcomment.router')
+const storyRouter = require('./api/story/story.router')
 
 const app = express()
 
@@ -24,5 +25,6 @@ app.use(imageRouter)
 app.use(videoRouter)
 app.use(commentImageRouter)
 app.use(commentVideoRouter)
+app.use(storyRouter)
 
 module.exports = app
