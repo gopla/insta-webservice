@@ -19,7 +19,7 @@ module.exports = model(
       expire_at: {
         type: Date,
         default: Date.now(),
-        expires: 30,
+        expires: 86400,
       },
     },
     { collection: 'story' }
