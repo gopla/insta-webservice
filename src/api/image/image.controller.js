@@ -20,6 +20,17 @@ module.exports = {
     }
   },
 
+  user: async (req, res) => {
+    try {
+      const imageRes = await imageService.getImageByUsername(
+        req.params.username
+      )
+      res.json(imageRes)
+    } catch (error) {
+      res.status(error.statusCode || 500).json(error)
+    }
+  },
+
   store: async (req, res) => {
     try {
       const imageBuffer = req.file.buffer

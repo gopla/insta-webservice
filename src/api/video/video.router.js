@@ -10,6 +10,7 @@ router.use(verifyToken)
 
 router.get(`${baseUrl}`, con.index)
 router.get(`${baseUrl}/:id`, con.show)
+router.get(`${baseUrl}/by-user/:username`, con.user)
 router.post(`${baseUrl}`, multerUploads, con.store)
 router.put(`${baseUrl}/:id`, con.update)
 router.put(`${baseUrl}/like/:id`, con.liked)

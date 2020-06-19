@@ -1,6 +1,7 @@
 const { setError } = require('../../middlewares/errorHandler')
 const { uploadImage, deleteImageCloudinary } = require('../../utils/cloudinary')
 const Image = require('./image.model')
+const User = require('../user/user.model')
 
 module.exports = {
   getAllImage: () => {
@@ -18,6 +19,20 @@ module.exports = {
     return new Promise(async (resolve, reject) => {
       try {
         const imageDoc = await Image.find({ _id: imageId })
+          .populate('user')
+          .exec()
+        resolve(imageDoc)
+      } catch (error) {
+        reject(setError(302, error))
+      }
+    })
+  },
+
+  getImageByUsername: (username) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const user = await User.findOne({ username })
+        const imageDoc = await Image.find({ user: user._id })
           .populate('user')
           .exec()
         resolve(imageDoc)

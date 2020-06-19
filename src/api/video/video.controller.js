@@ -20,6 +20,17 @@ module.exports = {
     }
   },
 
+  user: async (req, res) => {
+    try {
+      const videoRes = await videoService.getVideoByUsername(
+        req.params.username
+      )
+      res.json(videoRes)
+    } catch (error) {
+      res.status(error.statusCode || 500).json(error)
+    }
+  },
+
   store: async (req, res) => {
     try {
       const videoBuffer = req.file.buffer

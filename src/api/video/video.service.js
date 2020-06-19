@@ -1,6 +1,7 @@
 const { setError } = require('../../middlewares/errorHandler')
 const { uploadVideo, deleteVideoCloudinary } = require('../../utils/cloudinary')
 const Video = require('./video.model')
+const User = require('../user/user.model')
 
 module.exports = {
   getAllVideo: () => {
@@ -18,6 +19,20 @@ module.exports = {
     return new Promise(async (resolve, reject) => {
       try {
         const videoDoc = await Video.find({ _id: videoId })
+          .populate('user')
+          .exec()
+        resolve(videoDoc)
+      } catch (error) {
+        reject(setError(302, error))
+      }
+    })
+  },
+
+  getVideoByUsername: (username) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const user = await User.findOne({ username })
+        const videoDoc = await Video.find({ user: user._id })
           .populate('user')
           .exec()
         resolve(videoDoc)
