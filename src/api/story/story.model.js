@@ -7,6 +7,7 @@ module.exports = model(
       user: {
         type: Schema.Types.ObjectId,
         required: true,
+        ref: 'User',
       },
       storyLink: {
         type: String,

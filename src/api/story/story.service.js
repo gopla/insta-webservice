@@ -23,7 +23,8 @@ module.exports = {
     return new Promise(async (resolve, reject) => {
       try {
         const storyDoc = await Story.find({ user }).populate('user').exec()
-        resolve(storyDoc)
+
+        if (storyDoc[0] != null) resolve(storyDoc)
       } catch (error) {
         reject(setError(302, error))
       }
@@ -57,6 +58,7 @@ module.exports = {
           storyLink: cloudinaryResp.secure_url,
           storyPublicId: cloudinaryResp.public_id,
         })
+
         resolve(storyDoc)
       } catch (error) {
         reject(setError(302, error))

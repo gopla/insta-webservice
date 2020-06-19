@@ -8,11 +8,12 @@ module.exports = {
       let followingStories = []
       const following = await followService.getFollowingPerUser(req.user.id)
       following.map(async (data) => {
-        await followingStories.push(storyService.getStoryByUser(data.user))
+        const a = await storyService.getStoryByUser(data.user._id)
+        followingStories.push(a[0])
       })
-
-      const storyResp = followingStories
-      res.json(storyResp)
+      setTimeout(() => {
+        res.json(followingStories)
+      }, 500)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
     }

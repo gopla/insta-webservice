@@ -34,7 +34,6 @@ module.exports = {
           .select('user')
           .populate('user')
           .exec()
-        console.log(followDoc)
 
         resolve(followDoc)
       } catch (error) {
