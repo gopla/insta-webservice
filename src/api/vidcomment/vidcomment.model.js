@@ -20,6 +20,10 @@ module.exports = model(
         type: Date,
         default: Date.now(),
       },
+      like: {
+        type: Number,
+        default: 0,
+      },
     },
     { collection: 'videocomment' }
   )

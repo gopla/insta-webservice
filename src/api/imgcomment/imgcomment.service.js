@@ -63,4 +63,32 @@ module.exports = {
       }
     })
   },
+
+  incrementLikeComment: (commentId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const commentDoc = await ImageComment.findOneAndUpdate(
+          { _id: commentId },
+          { $inc: { like: 1 } }
+        )
+        resolve(commentDoc)
+      } catch (error) {
+        reject(error)
+      }
+    })
+  },
+
+  decrementLikeComment: (commentId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const commentDoc = await ImageComment.findOneAndUpdate(
+          { _id: commentId },
+          { $inc: { like: -1 } }
+        )
+        resolve(commentDoc)
+      } catch (error) {
+        reject(error)
+      }
+    })
+  },
 }

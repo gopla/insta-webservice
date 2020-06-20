@@ -1,9 +1,9 @@
-const imageService = require('./imgcomment.service')
+const imageCommentService = require('./imgcomment.service')
 
 module.exports = {
   index: async (req, res) => {
     try {
-      const comentRes = await imageService.getAllComment()
+      const comentRes = await imageCommentService.getAllComment()
       res.json(comentRes)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
@@ -12,7 +12,9 @@ module.exports = {
 
   show: async (req, res) => {
     try {
-      const comentRes = await imageService.getCommentByPost(req.params.id_post)
+      const comentRes = await imageCommentService.getCommentByPost(
+        req.params.id_post
+      )
       res.json(comentRes)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
@@ -26,7 +28,7 @@ module.exports = {
         image: req.params.id_post,
         comment: req.body.comment,
       }
-      const comentRes = await imageService.createComment(commentBody)
+      const comentRes = await imageCommentService.createComment(commentBody)
       res.json(comentRes)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
@@ -39,7 +41,7 @@ module.exports = {
         user: req.user.id,
         comment: req.body.comment,
       }
-      const comentRes = await imageService.updateComment(
+      const comentRes = await imageCommentService.updateComment(
         req.params.id,
         commentBody
       )
@@ -51,8 +53,30 @@ module.exports = {
 
   delete: async (req, res) => {
     try {
-      const comentRes = await imageService.deleteComment(req.params.id)
+      const comentRes = await imageCommentService.deleteComment(req.params.id)
       res.json(comentRes)
+    } catch (error) {
+      res.status(error.statusCode || 500).json(error)
+    }
+  },
+
+  like: async (req, res) => {
+    try {
+      const commentRes = await imageCommentService.incrementLikeComment(
+        req.params.id
+      )
+      if (commentRes) res.json({ isSccess: true, message: 'Comment liked' })
+    } catch (error) {
+      res.status(error.statusCode || 500).json(error)
+    }
+  },
+
+  unlike: async (req, res) => {
+    try {
+      const commentRes = await imageCommentService.decrementLikeComment(
+        req.params.id
+      )
+      if (commentRes) res.json({ isSccess: true, message: 'Comment unliked' })
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
     }
