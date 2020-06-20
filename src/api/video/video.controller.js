@@ -1,5 +1,6 @@
 const videoService = require('./video.service')
 const userService = require('../user/user.service')
+const videoCommentService = require('../vidcomment/vidcomment.service')
 
 module.exports = {
   index: async (req, res) => {
@@ -14,6 +15,10 @@ module.exports = {
   show: async (req, res) => {
     try {
       const videoRes = await videoService.getVideoById(req.params.id)
+      let commentValue = await videoCommentService.getCommentValue(
+        req.params.id
+      )
+      videoRes = Object.assign({ comment: commentValue }, videoRes[0]._doc)
       res.json(videoRes)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)

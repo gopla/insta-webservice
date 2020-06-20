@@ -26,6 +26,19 @@ module.exports = {
     })
   },
 
+  getCommentValue: (postId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const comentDoc = await ImageComment.find({ image: postId })
+          .populate('user')
+          .exec()
+        resolve(comentDoc.length)
+      } catch (error) {
+        reject(setError(302, error))
+      }
+    })
+  },
+
   createComment: (commentBody) => {
     return new Promise(async (resolve, reject) => {
       try {
