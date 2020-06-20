@@ -17,6 +17,8 @@ module.exports = {
     return new Promise(async (resolve, reject) => {
       try {
         const comentDoc = await ImageComment.find({ image: postId })
+          .populate('user')
+          .exec()
         resolve(comentDoc)
       } catch (error) {
         reject(setError(302, error))
