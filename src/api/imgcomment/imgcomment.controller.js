@@ -56,7 +56,7 @@ module.exports = {
   delete: async (req, res) => {
     try {
       const comentRes = await imageCommentService.deleteComment(req.params.id)
-      if (comentRes) await imageService.decrementComment(req.params.id)
+      if (comentRes) await imageService.decrementComment(comentRes.image)
       res.json(comentRes)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)

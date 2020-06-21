@@ -138,4 +138,35 @@ module.exports = {
       }
     })
   },
+
+  incrementComment: (videoId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await Video.findOneAndUpdate({ _id: videoId }, { $inc: { comment: 1 } })
+        const videoDoc = await Video.find({ _id: videoId })
+          .populate('user')
+          .exec()
+        resolve(videoDoc)
+      } catch (error) {
+        reject(setError(302, error))
+      }
+    })
+  },
+
+  decrementComment: (videoId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await Video.findOneAndUpdate(
+          { _id: videoId },
+          { $inc: { comment: -1 } }
+        )
+        const videoDoc = await Video.find({ _id: videoId })
+          .populate('user')
+          .exec()
+        resolve(videoDoc)
+      } catch (error) {
+        reject(setError(302, error))
+      }
+    })
+  },
 }

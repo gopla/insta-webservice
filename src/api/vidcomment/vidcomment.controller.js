@@ -1,4 +1,5 @@
 const videoCommentService = require('./vidcomment.service')
+const videoService = require('../video/video.service')
 
 module.exports = {
   index: async (req, res) => {
@@ -29,6 +30,7 @@ module.exports = {
         comment: req.body.comment,
       }
       const comentRes = await videoCommentService.createComment(commentBody)
+      if (comentRes) await videoService.incrementComment(req.params.id_post)
       res.json(comentRes)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
@@ -54,6 +56,7 @@ module.exports = {
   delete: async (req, res) => {
     try {
       const comentRes = await videoCommentService.deleteComment(req.params.id)
+      if (comentRes) await videoService.decrementComment(comentRes.video)
       res.json(comentRes)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
