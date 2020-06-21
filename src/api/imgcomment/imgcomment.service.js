@@ -5,7 +5,7 @@ module.exports = {
   getAllComment: () => {
     return new Promise(async (resolve, reject) => {
       try {
-        const comentDoc = await ImageComment.find()
+        const comentDoc = await ImageComment.find().sort({ createdAt: 'desc' })
         resolve(comentDoc)
       } catch (error) {
         reject(setError(302, error))
@@ -17,6 +17,7 @@ module.exports = {
     return new Promise(async (resolve, reject) => {
       try {
         const comentDoc = await ImageComment.find({ image: postId })
+          .sort({ createdAt: 'desc' })
           .populate('user')
           .exec()
         resolve(comentDoc)

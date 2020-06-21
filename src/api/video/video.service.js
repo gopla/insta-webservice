@@ -7,7 +7,10 @@ module.exports = {
   getAllVideo: () => {
     return new Promise(async (resolve, reject) => {
       try {
-        const videoDoc = await Video.find().populate('user').exec()
+        const videoDoc = await Video.find()
+          .populate('user')
+          .exec()
+          .sort({ createdAt: 'desc' })
         resolve(videoDoc)
       } catch (error) {
         reject(setError(302, error))
@@ -33,6 +36,7 @@ module.exports = {
       try {
         const user = await User.findOne({ username })
         const videoDoc = await Video.find({ user: user._id })
+          .sort({ createdAt: 'desc' })
           .populate('user')
           .exec()
         resolve(videoDoc)

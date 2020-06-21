@@ -7,7 +7,10 @@ module.exports = {
   getAllImage: () => {
     return new Promise(async (resolve, reject) => {
       try {
-        const imageDoc = await Image.find().populate('user').exec()
+        const imageDoc = await Image.find()
+          .sort({ createdAt: 'desc' })
+          .populate('user')
+          .exec()
         resolve(imageDoc)
       } catch (error) {
         reject(setError(302, error))
@@ -33,6 +36,7 @@ module.exports = {
       try {
         const user = await User.findOne({ username })
         const imageDoc = await Image.find({ user: user._id })
+          .sort({ createdAt: 'desc' })
           .populate('user')
           .exec()
         resolve(imageDoc)
