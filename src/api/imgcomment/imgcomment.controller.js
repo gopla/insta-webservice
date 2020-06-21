@@ -1,4 +1,5 @@
 const imageCommentService = require('./imgcomment.service')
+const imageService = require('../image/image.service')
 
 module.exports = {
   index: async (req, res) => {
@@ -29,6 +30,7 @@ module.exports = {
         comment: req.body.comment,
       }
       const comentRes = await imageCommentService.createComment(commentBody)
+      if (comentRes) await imageService.incrementComment(req.params.id_post)
       res.json(comentRes)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
@@ -54,6 +56,7 @@ module.exports = {
   delete: async (req, res) => {
     try {
       const comentRes = await imageCommentService.deleteComment(req.params.id)
+      if (comentRes) await imageService.decrementComment(req.params.id)
       res.json(comentRes)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)

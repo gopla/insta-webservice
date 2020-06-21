@@ -28,6 +28,10 @@ module.exports = model(
         type: Number,
         default: 0,
       },
+      comment: {
+        type: Number,
+        default: 0,
+      },
       createdAt: {
         type: Date,
         default: Date.now(),

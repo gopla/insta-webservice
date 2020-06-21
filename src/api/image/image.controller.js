@@ -1,6 +1,5 @@
 const imageService = require('./image.service')
 const userService = require('../user/user.service')
-const imageCommentService = require('../imgcomment/imgcomment.service')
 
 module.exports = {
   index: async (req, res) => {
@@ -15,10 +14,6 @@ module.exports = {
   show: async (req, res) => {
     try {
       let imageRes = await imageService.getImageById(req.params.id)
-      let commentValue = await imageCommentService.getCommentValue(
-        req.params.id
-      )
-      imageRes = Object.assign({ comment: commentValue }, imageRes[0]._doc)
       res.json(imageRes)
     } catch (error) {
       console.log(error)

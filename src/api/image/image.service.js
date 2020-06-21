@@ -141,4 +141,35 @@ module.exports = {
       }
     })
   },
+
+  incrementComment: (imageId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await Image.findOneAndUpdate({ _id: imageId }, { $inc: { comment: 1 } })
+        const imageDoc = await Image.find({ _id: imageId })
+          .populate('user')
+          .exec()
+        resolve(imageDoc)
+      } catch (error) {
+        reject(setError(302, error))
+      }
+    })
+  },
+
+  decrementComment: (imageId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await Image.findOneAndUpdate(
+          { _id: imageId },
+          { $inc: { comment: -1 } }
+        )
+        const imageDoc = await Image.find({ _id: imageId })
+          .populate('user')
+          .exec()
+        resolve(imageDoc)
+      } catch (error) {
+        reject(setError(302, error))
+      }
+    })
+  },
 }
