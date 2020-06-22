@@ -2,6 +2,7 @@ const { setError } = require('../../middlewares/errorHandler')
 const { uploadImage, deleteImageCloudinary } = require('../../utils/cloudinary')
 const Image = require('./image.model')
 const User = require('../user/user.model')
+const moment = require('moment')
 
 module.exports = {
   getAllImage: () => {
@@ -57,6 +58,7 @@ module.exports = {
             imageLink: cloudinaryResp.secure_url,
             imagePublicId: cloudinaryResp.public_id,
             user: userId,
+            createdAt: moment().format('YYYY-MM-D HH:mm:ss'),
           })
         )
           .populate('user')

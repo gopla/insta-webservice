@@ -33,8 +33,8 @@ module.exports = model(
         default: 0,
       },
       createdAt: {
-        type: Date,
-        default: Date.now(),
+        type: String,
+        // default: Date.now(),
       },
     },
     { collection: 'video' }

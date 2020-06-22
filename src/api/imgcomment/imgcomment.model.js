@@ -17,8 +17,7 @@ module.exports = model(
         required: true,
       },
       createdAt: {
-        type: Date,
-        default: Date.now(),
+        type: String,
       },
       like: {
         type: Number,

@@ -1,5 +1,6 @@
 const { setError } = require('../../middlewares/errorHandler')
 const ImageComment = require('./imgcomment.model')
+const moment = require('moment')
 
 module.exports = {
   getAllComment: () => {
@@ -43,7 +44,10 @@ module.exports = {
   createComment: (commentBody) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const comentDoc = await ImageComment.create(commentBody)
+        const comentDoc = await ImageComment.create({
+          ...commentBody,
+          createdAt: moment().format('YYYY-MM-D HH:mm:ss'),
+        })
         resolve(comentDoc)
       } catch (error) {
         reject(error)
