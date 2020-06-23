@@ -5,17 +5,8 @@ const followService = require('../follow/follow.service')
 module.exports = {
   index: async (req, res) => {
     try {
-      let followingPosts = []
-      const following = await followService.getFollowingPerUser(req.user.id)
-      following.map(async (data) => {
-        const a = await imageService.getImageByUserId(data.user._id)
-        a.map((data) => {
-          followingPosts.push(data)
-        })
-      })
-      setTimeout(() => {
-        res.json(followingPosts)
-      }, 1000)
+      const imageRes = await imageService.getAllImage()
+      res.json(imageRes)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
     }
@@ -38,6 +29,24 @@ module.exports = {
         req.params.username
       )
       res.json(imageRes)
+    } catch (error) {
+      res.status(error.statusCode || 500).json(error)
+    }
+  },
+
+  following: async (req, res) => {
+    try {
+      let followingPosts = []
+      const following = await followService.getFollowingPerUser(req.user.id)
+      following.map(async (data) => {
+        const a = await imageService.getImageByUserId(data.user._id)
+        a.map((data) => {
+          followingPosts.push(data)
+        })
+      })
+      setTimeout(() => {
+        res.json(followingPosts)
+      }, 1000)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
     }
