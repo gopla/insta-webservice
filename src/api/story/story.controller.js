@@ -9,11 +9,13 @@ module.exports = {
       const following = await followService.getFollowingPerUser(req.user.id)
       following.map(async (data) => {
         const a = await storyService.getStoryByUser(data.user._id)
-        followingStories.push(a[0])
+        a.map((data) => {
+          followingStories.push(data)
+        })
       })
       setTimeout(() => {
         res.json(followingStories)
-      }, 500)
+      }, 1000)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
     }

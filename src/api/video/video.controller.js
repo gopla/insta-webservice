@@ -1,12 +1,21 @@
 const videoService = require('./video.service')
 const userService = require('../user/user.service')
-const videoCommentService = require('../vidcomment/vidcomment.service')
+const followService = require('../follow/follow.service')
 
 module.exports = {
   index: async (req, res) => {
     try {
-      const videoRes = await videoService.getAllVideo()
-      res.json(videoRes)
+      let followingPosts = []
+      const following = await followService.getFollowingPerUser(req.user.id)
+      following.map(async (data) => {
+        const a = await videoService.getVideoByUserId(data.user._id)
+        a.map((data) => {
+          followingPosts.push(data)
+        })
+      })
+      setTimeout(() => {
+        res.json(followingPosts)
+      }, 1000)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
     }

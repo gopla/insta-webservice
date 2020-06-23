@@ -47,6 +47,20 @@ module.exports = {
     })
   },
 
+  getVideoByUserId: (userId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const videoDoc = await Video.find({ user: userId })
+          .sort({ createdAt: 'desc' })
+          .populate('user')
+          .exec()
+        resolve(videoDoc)
+      } catch (error) {
+        reject(setError(302, error))
+      }
+    })
+  },
+
   postVideo: (userId, caption, videoBuffer) => {
     return new Promise(async (resolve, reject) => {
       try {

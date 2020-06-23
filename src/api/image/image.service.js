@@ -47,6 +47,20 @@ module.exports = {
     })
   },
 
+  getImageByUserId: (userId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const imageDoc = await Image.find({ user: userId })
+          .sort({ createdAt: 'desc' })
+          .populate('user')
+          .exec()
+        resolve(imageDoc)
+      } catch (error) {
+        reject(setError(302, error))
+      }
+    })
+  },
+
   postImage: (userId, caption, imageBuffer) => {
     return new Promise(async (resolve, reject) => {
       try {
