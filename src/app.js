@@ -1,3 +1,4 @@
+require('moment-timezone')
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
@@ -7,6 +8,7 @@ const videoRouter = require('./api/video/video.router')
 const commentImageRouter = require('./api/imgcomment/imgcomment.router')
 const commentVideoRouter = require('./api/vidcomment/vidcomment.router')
 const storyRouter = require('./api/story/story.router')
+const moment = require('moment')
 
 const app = express()
 
@@ -18,6 +20,7 @@ app.get(`/`, (req, res) => {
   res.json({
     isSucces: true,
     message: 'Hello, World!',
+    now: moment().tz('Asia/Jakarta').format('YYYY-MM-D HH:mm:ss'),
   })
 })
 app.use(userRouter)

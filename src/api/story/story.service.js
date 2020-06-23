@@ -5,6 +5,7 @@ const {
   deleteImageCloudinary,
   deleteVideoCloudinary,
 } = require('../../utils/cloudinary')
+const moment = require('moment')
 const Story = require('./story.model')
 
 module.exports = {
@@ -40,6 +41,7 @@ module.exports = {
           user: story.userId,
           storyLink: cloudinaryResp.secure_url,
           storyPublicId: cloudinaryResp.public_id,
+          created_at: moment().tz('Asia/Jakarta').format('YYYY-MM-D HH:mm:ss'),
         })
         resolve(storyDoc)
       } catch (error) {
@@ -57,6 +59,7 @@ module.exports = {
           user: story.userId,
           storyLink: cloudinaryResp.secure_url,
           storyPublicId: cloudinaryResp.public_id,
+          created_at: moment().tz('Asia/Jakarta').format('YYYY-MM-D HH:mm:ss'),
         })
 
         resolve(storyDoc)

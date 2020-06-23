@@ -72,7 +72,7 @@ module.exports = {
             imageLink: cloudinaryResp.secure_url,
             imagePublicId: cloudinaryResp.public_id,
             user: userId,
-            createdAt: moment().format('YYYY-MM-D HH:mm:ss'),
+            createdAt: moment().tz('Asia/Jakarta').format('YYYY-MM-D HH:mm:ss'),
           })
         )
           .populate('user')

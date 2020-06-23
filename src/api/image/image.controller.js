@@ -38,12 +38,18 @@ module.exports = {
     try {
       let followingPosts = []
       const following = await followService.getFollowingPerUser(req.user.id)
+      const self = await imageService.getImageByUserId(req.user.id)
+
+      self.map((data) => {
+        followingPosts.push(data)
+      })
       following.map(async (data) => {
         const a = await imageService.getImageByUserId(data.user._id)
         a.map((data) => {
           followingPosts.push(data)
         })
       })
+
       setTimeout(() => {
         res.json(followingPosts)
       }, 1000)

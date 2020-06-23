@@ -34,7 +34,6 @@ module.exports = model(
       },
       createdAt: {
         type: String,
-        // default: Date.now(),
       },
     },
     { collection: 'video' }

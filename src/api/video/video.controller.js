@@ -36,6 +36,10 @@ module.exports = {
     try {
       let followingPosts = []
       const following = await followService.getFollowingPerUser(req.user.id)
+      const self = await videoService.getVideoByUserId(req.user.id)
+      self.map((data) => {
+        followingPosts.push(data)
+      })
       following.map(async (data) => {
         const a = await videoService.getVideoByUserId(data.user._id)
         a.map((data) => {

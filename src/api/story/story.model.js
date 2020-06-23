@@ -17,6 +17,9 @@ module.exports = model(
         type: String,
         required: true,
       },
+      created_at: {
+        type: String,
+      },
       expire_at: {
         type: Date,
         default: Date.now(),

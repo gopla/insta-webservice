@@ -7,6 +7,10 @@ module.exports = {
     try {
       let followingStories = []
       const following = await followService.getFollowingPerUser(req.user.id)
+      const self = await storyService.getStoryByUser(req.user.id)
+      self.map((data) => {
+        followingStories.push(data)
+      })
       following.map(async (data) => {
         const a = await storyService.getStoryByUser(data.user._id)
         a.map((data) => {

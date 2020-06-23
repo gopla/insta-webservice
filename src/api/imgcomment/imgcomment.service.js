@@ -46,7 +46,7 @@ module.exports = {
       try {
         const comentDoc = await ImageComment.create({
           ...commentBody,
-          createdAt: moment().format('YYYY-MM-D HH:mm:ss'),
+          createdAt: moment().tz('Asia/Jakarta').format('YYYY-MM-D HH:mm:ss'),
         })
         resolve(comentDoc)
       } catch (error) {
