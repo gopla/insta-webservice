@@ -1,6 +1,7 @@
 const imageService = require('./image.service')
 const userService = require('../user/user.service')
 const followService = require('../follow/follow.service')
+const likeService = require('../like/like.service')
 
 module.exports = {
   index: async (req, res) => {
@@ -102,6 +103,7 @@ module.exports = {
   liked: async (req, res) => {
     try {
       const imageRes = await imageService.incrementLike(req.params.id)
+      if (imageRes) await likeService.storeLikeImage(imageRes._id, req.user.id)
       res.json(imageRes)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
