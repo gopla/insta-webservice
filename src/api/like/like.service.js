@@ -1,3 +1,4 @@
+const { setError } = require('../../middlewares/errorHandler')
 const Like = require('./like.model')
 const moment = require('moment')
 
@@ -6,9 +7,13 @@ module.exports = {
     return new Promise(async (resolve, reject) => {
       try {
         const likeDoc = await Like.find()
+          .populate('likedBy')
+          .populate('image')
+          .populate('video')
+          .exec()
         resolve(likeDoc)
       } catch (error) {
-        reject(error)
+        reject(setError(302, error))
       }
     })
   },
@@ -16,14 +21,39 @@ module.exports = {
   getLikeByUserLoggedIn: (user) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const likeDoc = await Like.find({ user })
-          .populate('user')
+        const likeDoc = await Like.find({ likedBy: user })
+          .populate('likedBy')
           .populate('image')
           .populate('video')
           .exec()
         resolve(likeDoc)
       } catch (error) {
-        reject(error)
+        reject(setError(302, error))
+      }
+    })
+  },
+
+  getLikeByPost: (postId, isImage) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let likeDoc = ''
+        if (isImage) {
+          likeDoc = await Like.find({ image: postId })
+            .populate('likedBy')
+            .populate('image')
+            .populate('video')
+            .exec()
+        } else {
+          likeDoc = await Like.find({ video: postId })
+            .populate('likedBy')
+            .populate('image')
+            .populate('video')
+            .exec()
+        }
+
+        resolve(likeDoc)
+      } catch (error) {
+        reject(setError(302, error))
       }
     })
   },
@@ -33,12 +63,12 @@ module.exports = {
       try {
         const likeDoc = await Like.create({
           image,
-          user,
+          likedBy: user,
           createdAt: moment().tz('Asia/Jakarta').format('YYYY-MM-D HH:mm:ss'),
         })
         resolve(likeDoc)
       } catch (error) {
-        reject(error)
+        reject(setError(302, error))
       }
     })
   },
@@ -53,7 +83,7 @@ module.exports = {
         })
         resolve(likeDoc)
       } catch (error) {
-        reject(error)
+        reject(setError(302, error))
       }
     })
   },
@@ -64,7 +94,7 @@ module.exports = {
         const likeDoc = await Like.findOneAndDelete({ image, user })
         resolve(likeDoc)
       } catch (error) {
-        reject(error)
+        reject(setError(302, error))
       }
     })
   },
@@ -75,7 +105,7 @@ module.exports = {
         const likeDoc = await Like.findOneAndDelete({ video, user })
         resolve(likeDoc)
       } catch (error) {
-        reject(error)
+        reject(setError(302, error))
       }
     })
   },

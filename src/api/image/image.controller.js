@@ -18,8 +18,6 @@ module.exports = {
       let imageRes = await imageService.getImageById(req.params.id)
       res.json(imageRes)
     } catch (error) {
-      console.log(error)
-
       res.status(error.statusCode || 500).json(error)
     }
   },
@@ -38,8 +36,10 @@ module.exports = {
   following: async (req, res) => {
     try {
       let followingPosts = []
+      let newData = []
       const following = await followService.getFollowingPerUser(req.user.id)
       const self = await imageService.getImageByUserId(req.user.id)
+      const isLiked = await likeService.getLikeByUserLoggedIn(req.user.id)
 
       self.map((data) => {
         followingPosts.push(data)
@@ -50,10 +50,21 @@ module.exports = {
           followingPosts.push(data)
         })
       })
-
       setTimeout(() => {
-        res.json(followingPosts)
+        followingPosts.map((data) => {
+          isLiked.map((like) => {
+            let a = JSON.stringify(data._id)
+            let b = JSON.stringify(like.image._id)
+            let likedByMe = a == b ? true : false
+            let pair = { isLiked: likedByMe }
+            data = { ...data._doc, ...pair }
+            newData.push(data)
+          })
+        })
       }, 1000)
+      setTimeout(() => {
+        res.json(newData)
+      }, 2000)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
     }
@@ -103,7 +114,10 @@ module.exports = {
   liked: async (req, res) => {
     try {
       const imageRes = await imageService.incrementLike(req.params.id)
-      if (imageRes) await likeService.storeLikeImage(imageRes._id, req.user.id)
+      console.log(req.user.id)
+
+      if (imageRes)
+        await likeService.storeLikeImage(imageRes[0]._id, req.user.id)
       res.json(imageRes)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)

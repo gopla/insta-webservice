@@ -8,6 +8,7 @@ const videoRouter = require('./api/video/video.router')
 const commentImageRouter = require('./api/imgcomment/imgcomment.router')
 const commentVideoRouter = require('./api/vidcomment/vidcomment.router')
 const storyRouter = require('./api/story/story.router')
+const likeRouter = require('./api/like/like.router')
 const moment = require('moment')
 
 const app = express()
@@ -29,5 +30,6 @@ app.use(videoRouter)
 app.use(commentImageRouter)
 app.use(commentVideoRouter)
 app.use(storyRouter)
+app.use(likeRouter)
 
 module.exports = app
