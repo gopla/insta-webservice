@@ -52,14 +52,21 @@ module.exports = {
       })
       setTimeout(() => {
         followingPosts.map((data) => {
-          isLiked.map((like) => {
-            let a = JSON.stringify(data._id)
-            let b = JSON.stringify(like.image._id)
-            let likedByMe = a == b ? true : false
-            let pair = { isLiked: likedByMe }
+          if (!isLiked[0]) {
+            let pair = { isLiked: false }
             data = { ...data._doc, ...pair }
             newData.push(data)
-          })
+          } else {
+            isLiked.map((like) => {
+              let a = JSON.stringify(data._id)
+              let b = JSON.stringify(like.image._id)
+
+              let likedByMe = a == b ? true : false
+              let pair = { isLiked: likedByMe }
+              data = { ...data._doc, ...pair }
+              newData.push(data)
+            })
+          }
         })
       }, 1000)
       setTimeout(() => {
