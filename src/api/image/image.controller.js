@@ -36,7 +36,8 @@ module.exports = {
   following: async (req, res) => {
     try {
       let followingPosts = []
-      let newData = []
+      let newData = [],
+        liked = []
       const following = await followService.getFollowingPerUser(req.user.id)
       const self = await imageService.getImageByUserId(req.user.id)
       const isLiked = await likeService.getLikeByUserLoggedIn(req.user.id)
@@ -52,9 +53,8 @@ module.exports = {
       })
       setTimeout(() => {
         followingPosts.map((data) => {
-          if (isLiked[0] == null) {
-            let pair = { isLiked: false }
-            data = { ...data._doc, ...pair }
+          if (!isLiked[0]) {
+            data = { ...data._doc, isLiked: false }
             newData.push(data)
           } else {
             isLiked.map((like) => {
@@ -62,15 +62,30 @@ module.exports = {
               let b = JSON.stringify(like.image._id)
 
               let likedByMe = a == b ? true : false
-              let pair = { isLiked: likedByMe }
-              data = { ...data._doc, ...pair }
-              newData.push(data)
+              if (likedByMe) {
+                data = { ...data._doc, isLiked: likedByMe }
+                liked.push(data)
+              }
             })
           }
+          data = { ...data._doc, isLiked: false }
+          newData.push(data)
         })
       }, 1000)
       setTimeout(() => {
-        res.json(newData)
+        newData = newData.filter((obj) => {
+          return obj._id != null
+        })
+        let trueResp = newData.concat(liked)
+        trueResp.sort((a, b) => {
+          var keyA = new Date(a.createdAt),
+            keyB = new Date(b.createdAt)
+          // Compare the 2 dates
+          if (keyA > keyB) return -1
+          if (keyA < keyB) return 1
+          return 0
+        })
+        res.json(trueResp)
       }, 2000)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
