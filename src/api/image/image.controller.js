@@ -52,7 +52,7 @@ module.exports = {
       })
       setTimeout(() => {
         followingPosts.map((data) => {
-          if (!isLiked[0]) {
+          if (isLiked[0] == null) {
             let pair = { isLiked: false }
             data = { ...data._doc, ...pair }
             newData.push(data)
