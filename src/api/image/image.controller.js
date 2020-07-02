@@ -71,7 +71,7 @@ module.exports = {
           data = { ...data._doc, isLiked: false }
           newData.push(data)
         })
-      }, 250)
+      }, 500)
       setTimeout(() => {
         newData = newData.filter((obj) => {
           return obj._id != null
@@ -86,7 +86,7 @@ module.exports = {
           return 0
         })
         res.json(trueResp)
-      }, 500)
+      }, 1000)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
     }
