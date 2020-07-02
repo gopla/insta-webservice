@@ -149,6 +149,7 @@ module.exports = {
   unliked: async (req, res) => {
     try {
       const imageRes = await imageService.decrementLike(req.params.id)
+      if (imageRes) await likeService.deleteLikeImage(req.params.id)
       res.json(imageRes)
     } catch (error) {
       res.status(error.statusCode || 500).json(error)
